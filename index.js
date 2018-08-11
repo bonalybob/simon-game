@@ -151,14 +151,4 @@ document.getElementById('yellow').addEventListener('mouseup', boxRelease)
 document.getElementById('green').addEventListener('mouseup', boxRelease)
 document.getElementById('blue').addEventListener('mouseup', boxRelease)
 
-document.getElementById('red').addEventListener('touchstart', boxClick)
-document.getElementById('yellow').addEventListener('touchstart', boxClick)
-document.getElementById('green').addEventListener('touchstart', boxClick)
-document.getElementById('blue').addEventListener('touchstart', boxClick)
-
-document.getElementById('red').addEventListener('touchend', boxRelease)
-document.getElementById('yellow').addEventListener('touchend', boxRelease)
-document.getElementById('green').addEventListener('touchend', boxRelease)
-document.getElementById('blue').addEventListener('touchend', boxRelease)
-
 document.getElementById('start-game').addEventListener('click', setupGame)
