@@ -1,5 +1,42 @@
 'use strict'
 
+// Set up Web Audio API for Sounds
+let audioContext = new (window.AudioContext || window.webkitAudioContext || false)()
+if (!audioContext) {
+    document.getElementById('sound-error').setAttribute('style', 'display:block')
+}
+let frequencies = { 'green': 329.63, 'red': 261.63, 'yellow': 220, 'blue': 164.81 }
+let oscillators = {}
+
+Object.keys(frequencies).forEach((color) => {
+    let oscillator = audioContext.createOscillator()
+    oscillator.type = 'square'
+    oscillator.frequency.value = frequencies[color]
+    let gain = audioContext.createGain()
+    oscillator.connect(gain)
+    gain.connect(audioContext.destination)
+    gain.gain.value = 0
+    oscillator.start(0.0)
+    oscillators[color] = gain
+})
+
+function colorTone (color, generated) {
+    if (generated) {
+        oscillators[color].gain.linearRampToValueAtTime(1, audioContext.currentTime)
+        oscillators[color].gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.5)
+    }
+    else oscillators[color].gain.linearRampToValueAtTime(0.5, audioContext.currentTime)
+}
+
+function errorTone () {
+    let errorOscillator = audioContext.createOscillator()
+    errorOscillator.type = 'triangle'
+    errorOscillator.frequency.value = 110
+    errorOscillator.connect(audioContext.destination)
+    errorOscillator.start(0.0)
+    errorOscillator.stop(audioContext.currentTime + 1.2)
+}
+
 // Set Up Game Object
 let game = {
     counter: -1,
@@ -43,24 +80,27 @@ function winMessage () {
 
 function failedMessage () {
     game.counts = false
+    errorTone()
+    clearTimeout()
     document.getElementById('message').innerText = 'Game Over!'
     document.getElementById('message').setAttribute('style', 'display:inline-block')
     document.getElementById('start-game').innerText = 'Start'
 }
 
 // Flashes Boxes in Pattern, (Flash and Sound). Delayed so they don't overlap
-function flashBox (color, length = 500) {
+function flashBox (color, generated) {
     document.getElementById(color).setAttribute('class', 'flash box')
-    setTimeout(() => {
-        document.getElementById(color).setAttribute('class', 'box')
-        document.getElementById(color + '-sound').play()
-    }, length)
+    if (generated) {
+        colorTone(color, true)
+        setTimeout(() => document.getElementById(color).setAttribute('class', 'box'), 500)
+    }
+    else colorTone(color, false)
 }
 
 function flashPattern (pattern) {
     for (let item in pattern) {
         setTimeout(() => {
-            flashBox(pattern[item])
+            flashBox(pattern[item], true)
             if (parseInt(item) === pattern.length - 1) game.counts = true
         }, 1000 * item)
     }
@@ -86,7 +126,12 @@ function checkPattern (pattern, userPattern) {
 // On Box Click
 function boxClick () {
     clearTimeout()
-    flashBox(this.id, 250)
+    flashBox(this.id, false)
+}
+
+function boxRelease () {
+    oscillators[this.id].gain.linearRampToValueAtTime(0, audioContext.currentTime)
+    document.getElementById(this.id).setAttribute('class', 'box')
     if (game.counts) {
         game.userPattern.push(this.id)
         let checked = checkPattern(game.pattern, game.userPattern)
@@ -96,9 +141,14 @@ function boxClick () {
 }
 
 // Set Bindings to the Buttons and Elements
-document.getElementById('red').addEventListener('click', boxClick)
-document.getElementById('yellow').addEventListener('click', boxClick)
-document.getElementById('green').addEventListener('click', boxClick)
-document.getElementById('blue').addEventListener('click', boxClick)
+document.getElementById('red').addEventListener('mousedown', boxClick)
+document.getElementById('yellow').addEventListener('mousedown', boxClick)
+document.getElementById('green').addEventListener('mousedown', boxClick)
+document.getElementById('blue').addEventListener('mousedown', boxClick)
+
+document.getElementById('red').addEventListener('mouseup', boxRelease)
+document.getElementById('yellow').addEventListener('mouseup', boxRelease)
+document.getElementById('green').addEventListener('mouseup', boxRelease)
+document.getElementById('blue').addEventListener('mouseup', boxRelease)
 
 document.getElementById('start-game').addEventListener('click', setupGame)

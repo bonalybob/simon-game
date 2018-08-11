@@ -13,34 +13,16 @@
 <body>
     <main>
         <h1 id="title">Simon</h1>
+        <h3 id="sound-error" style="display:none">Sorry You Browser will not Support the Playing of Sounds</h3>
         <div id="game-area">
-            <div class="box" id="green">
-                <audio id="green-sound">
-                    <source src="./sounds/Sound1.mp3" type="audio/mp3">
-                </audio>
-            </div>
-            <div class="box" id="red">
-                <audio id="red-sound">
-                    <source src="./sounds/Sound2.mp3" type="audio/mp3">
-                </audio>
-            </div>
-            <div class="box" id="yellow">
-                <audio id="yellow-sound">
-                    <source src="./sounds/Sound3.mp3" type="audio/mp3">
-                </audio>
-            </div>
-            <div class="box" id="blue">
-                <audio id="blue-sound">
-                    <source src="./sounds/Sound4.mp3" type="audio/mp3">
-                </audio>
-            </div>
+            <div class="box" id="green"></div>
+            <div class="box" id="red"></div>
+            <div class="box" id="yellow"></div>
+            <div class="box" id="blue"></div>
         </div>
         <h3 id="message" style="display:none">Game Over!</h3>
         <h3 id="score" style="display:none">Score: --</h3>
         <button id="start-game">Start</button>
-        <audio>
-            <h3>Sorry You Browser will not Support the Playing of Sounds</h3>
-        </audio>
     </main>
 </body>
 <script src="./index.js"></script>
