@@ -1,62 +1,59 @@
-user-select(value):
-    user-select: value
-    -moz-user-select:value
-    -webkit-user-select:value
-    -ms-user-select: value
-
 html, body, main
+    height:100%
     margin:0
     background-color:white
     text-align:center
-    height:100%
 
 h1
-    font-family:Roboto
-    text-align:center
-    font-size:65px
-    font-weight:300
-    color:black
     margin:0
-    padding:15px
-    user-select(none)
+    padding:10px
+    color:black
+    font-family:'Do Hyeon'
+    font-size:80px
+    text-align:center
+    user-select: none
+    -mox-user-select:none
+    -webkit-user-select: none
 
 h3
-    font-family:Roboto
-    text-align:center
-    font-size:30px
-    font-weight:300
+    margin:10px 20px 0 20px
     color:black
-    display:inline-block
-    margin:0 20px
-    user-select(none)
+    font-family:'Do Hyeon'
+    font-size:40px
+    text-align:center
+    user-select: none
+    -mox-user-select:none
+    -webkit-user-select: none
 
 button
     display:block
-    background-color:transparent
-    border:1px solid black
-    transition:.5s
-    margin:20px auto
-    padding:5px 15px
-    font-family:Roboto
-    text-align:center
-    font-size:30px
-    font-weight:300
+    margin:10px auto
+    padding:5px 20px
+    border:2px solid black
     color:black
+    background-color:transparent
+    font-family:'Do Hyeon'
+    font-size:30px
+    text-align:center
+    transition:.5s
+    user-select: none
+    -mox-user-select:none
+    -webkit-user-select: none
+
     &:hover
-        background-color:#000
         color:white
+        background-color:#000
 
 #game-area
-    background-color:black
-    padding:25px
-    width:30%
-    margin:auto
     display: grid
     grid-gap: 25px
     grid-template-columns: 1fr 1fr
+    width:30%
+    margin:auto
+    padding:25px
+    background-color:black
 
     .box
-        box-sizing: border-box
         width:100%
         height:0px
         padding-top: 100%;
@@ -82,38 +79,36 @@ button
         &.flash
             background-color:#FDD835
 
-@media(max-width:1000px){
-    #game-area{
+@media(max-width:1000px)
+    #game-area
+        grid-gap: 25px
         width:35%
-        grid-gap: 25px
         padding:25px
-    }
-}
-@media(max-width:900px){
-    #game-area{
+
+
+@media(max-width:900px)
+    #game-area
+        grid-gap: 25px
         width:40%
-        grid-gap: 25px
         padding:25px
-    }
-}
-@media(max-width:800px){
-    #game-area{
+
+
+@media(max-width:800px)
+    #game-area
+        grid-gap: 25px
         width:45%
-        grid-gap: 25px
         padding:25px
-    }
-}
-@media(max-width:700px){
-    #game-area{
-        width:60%
+
+
+@media(max-width:700px)
+    #game-area
         grid-gap: 20px
+        width:60%
         padding:20px
-    }
-}
-@media(max-width:500px){
-    #game-area{
-        width:70%
+
+
+@media(max-width:500px)
+    #game-area
         grid-gap: 15px
+        width:70%
         padding:15px
-    }
-}

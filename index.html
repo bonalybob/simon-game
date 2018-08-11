@@ -6,6 +6,8 @@
     <title>Simon</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="SimonGrid.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 </head>
 
 <body>
@@ -13,17 +15,17 @@
         <h1 id="title">Simon</h1>
         <div id="game-area">
             <div class="box" id="green">
-                <audio id="red-sound">
+                <audio id="green-sound">
                     <source src="./sounds/Sound1.mp3" type="audio/mp3">
                 </audio>
             </div>
             <div class="box" id="red">
-                <audio id="yellow-sound">
+                <audio id="red-sound">
                     <source src="./sounds/Sound2.mp3" type="audio/mp3">
                 </audio>
             </div>
             <div class="box" id="yellow">
-                <audio id="green-sound">
+                <audio id="yellow-sound">
                     <source src="./sounds/Sound3.mp3" type="audio/mp3">
                 </audio>
             </div>
@@ -33,9 +35,12 @@
                 </audio>
             </div>
         </div>
-        <button id="start-game">Start</button>
         <h3 id="message" style="display:none">Game Over!</h3>
         <h3 id="score" style="display:none">Score: --</h3>
+        <button id="start-game">Start</button>
+        <audio>
+            <h3>Sorry You Browser will not Support the Playing of Sounds</h3>
+        </audio>
     </main>
 </body>
 <script src="./index.js"></script>
