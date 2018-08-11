@@ -31,10 +31,10 @@ function colorTone (color, generated) {
 function errorTone () {
     let errorOscillator = audioContext.createOscillator()
     errorOscillator.type = 'triangle'
-    errorOscillator.frequency.value = 110
+    errorOscillator.frequency.value = 400
     errorOscillator.connect(audioContext.destination)
     errorOscillator.start(0.0)
-    errorOscillator.stop(audioContext.currentTime + 1.2)
+    errorOscillator.stop(audioContext.currentTime + 2)
 }
 
 // Set Up Game Object
