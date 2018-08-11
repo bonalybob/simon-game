@@ -1,18 +1,17 @@
-// falsh Boxes in Pattern
-function flashBox (color) {
+// Flashes Boxes in Pattern
+function flashBox (color, length = 500) {
     document.getElementById(color).setAttribute('class', 'flash box')
     setTimeout(() => {
         document.getElementById(color).setAttribute('class', 'box')
-    }, 500)
+        document.getElementById(color + '-sound').play()
+    }, length)
 }
 
 function flashPattern (pattern) {
     for (let item in pattern) {
         setTimeout(() => {
             flashBox(pattern[item])
-            if (parseInt(item) === pattern.length - 1) {
-                game.counts = true
-            }
+            if (parseInt(item) === pattern.length - 1) game.counts = true
         }, 1000 * item)
     }
     return true
@@ -30,19 +29,20 @@ function nextStage () {
     game.counts = false
     game.userPattern = []
     game.pattern.push(randomColor())
-    flashPattern(game.pattern)
+    document.getElementById('score').setAttribute('style', 'display:inline-block')
+    document.getElementById('score').innerText = 'Score: ' + game.counter.toString()
+    if (game.counter > 19) winMessage()
+    else flashPattern(game.pattern)
 }
 
 // On Box Click
 function buttonClick () {
+    flashBox(this.id, 250)
     if (game.counts) {
         game.userPattern.push(this.id)
         let checked = checkPattern(game.pattern, game.userPattern)
         if (checked === 'Incorrect') failedMessage()
-        else if (checked === 'Match') nextStage()
-    }
-    else {
-        failedMessage()
+        else if (checked === 'Match') setTimeout(nextStage, 1000)
     }
 }
 
@@ -60,12 +60,19 @@ function checkPattern (pattern, userPattern) {
     else return 'Correct'
 }
 
-// On Game Over
+// On Game End
+function winMessage () {
+    game.counts = false
+    document.getElementById('message').innerText = 'You Win!'
+    document.getElementById('message').setAttribute('style', 'display:inline-block')
+    document.getElementById('start-game').innerText = 'Play Again'
+}
+
 function failedMessage () {
     game.counts = false
-    let message = document.getElementById('message')
-    message.setAttribute('style', 'display:block')
-    message.innerText = 'Game Over! You Scored: ' + game.counter
+    document.getElementById('message').innerText = 'Game Over!'
+    document.getElementById('message').setAttribute('style', 'display:inline-block')
+    document.getElementById('start-game').innerText = 'Start'
 }
 
 // Set Up Game
@@ -77,6 +84,7 @@ document.getElementById('start-game').addEventListener('click', () => {
         pattern: [],
         userPattern: [],
     }
+    document.getElementById('start-game').innerText = 'Restart'
     document.getElementById('message').setAttribute('style', 'display:none')
     nextStage()
 })
