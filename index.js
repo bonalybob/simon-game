@@ -81,7 +81,6 @@ function winMessage () {
 function failedMessage () {
     game.counts = false
     errorTone()
-    clearTimeout()
     document.getElementById('message').innerText = 'Game Over!'
     document.getElementById('message').setAttribute('style', 'display:inline-block')
     document.getElementById('start-game').innerText = 'Start'
@@ -101,7 +100,10 @@ function flashPattern (pattern) {
     for (let item in pattern) {
         setTimeout(() => {
             flashBox(pattern[item], true)
-            if (parseInt(item) === pattern.length - 1) game.counts = true
+            if (parseInt(item) === pattern.length - 1) {
+                game.counts = true
+                timeLimit()
+            }
         }, 1000 * item)
     }
     return true
@@ -123,9 +125,19 @@ function checkPattern (pattern, userPattern) {
     else return 'Correct'
 }
 
+// Time Limit
+let timeLimitEvent
+function timeLimit () {
+    let lastUserPattern = game.userPattern
+    let lastCounter = game.counter
+    clearTimeout(timeLimitEvent)
+    timeLimitEvent = setTimeout(() => {
+        if (lastUserPattern === game.userPattern && game.counts && lastCounter === game.counter) failedMessage()
+    }, 5000)
+}
+
 // On Box Click
 function boxClick () {
-    clearTimeout()
     flashBox(this.id, false)
 }
 
@@ -134,10 +146,15 @@ function boxRelease () {
     document.getElementById(this.id).setAttribute('class', 'box')
     if (game.counts) {
         game.userPattern.push(this.id)
+        timeLimit()
         let checked = checkPattern(game.pattern, game.userPattern)
         if (checked === 'Incorrect') failedMessage()
         else if (checked === 'Match') setTimeout(nextStage, 1000)
     }
+}
+
+function boxTouch () {
+    flashBox(this.id, true)
 }
 
 // Set Bindings to the Buttons and Elements
@@ -150,5 +167,10 @@ document.getElementById('red').addEventListener('mouseup', boxRelease)
 document.getElementById('yellow').addEventListener('mouseup', boxRelease)
 document.getElementById('green').addEventListener('mouseup', boxRelease)
 document.getElementById('blue').addEventListener('mouseup', boxRelease)
+
+document.getElementById('red').addEventListener('touchstart', boxTouch)
+document.getElementById('yellow').addEventListener('touchstart', boxTouch)
+document.getElementById('green').addEventListener('touchstart', boxTouch)
+document.getElementById('blue').addEventListener('touchstart', boxTouch)
 
 document.getElementById('start-game').addEventListener('click', setupGame)
