@@ -1,13 +1,10 @@
-html, body, main
+html, body
     height:100%
     margin:0
     background-color:white
     text-align:center
     -webkit-touch-callout: none
     -webkit-user-select: none
-
-main
-    padding-bottom:5px
 
 h1
     margin:0
@@ -86,6 +83,22 @@ button
         background-color:yellow
         &.flash
             background-color:#FDD835
+
+#credits
+    position:absolute
+    right:0
+    bottom:0
+    @media(max-height:500px)
+        position:initial
+        margin-top:20px
+
+    margin:0
+    padding:10px
+    font-family:'Do Hyeon'
+    font-size:18px
+    a
+        margin-left:5px
+        color:black
 
 @media(max-width:1000px)
     #game-area
